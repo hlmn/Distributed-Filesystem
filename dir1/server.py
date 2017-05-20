@@ -60,8 +60,14 @@ class Jebret(object):
 	def putUri(self, uri):
 		self.daemon = uri
 		print(self.daemon)
-		
-
+	
+	def size(self):
+		total_size = 0
+		for dirpath, dirnames, filenames in os.walk("."):
+		    for f in filenames:
+		        fp = os.path.join(dirpath, f)
+		        total_size += os.path.getsize(fp)	
+		return total_size
 
 
 def main():

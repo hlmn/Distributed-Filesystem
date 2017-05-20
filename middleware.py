@@ -1,5 +1,5 @@
 from __future__ import print_function
-
+import operator
 try:
     import queue
 except ImportError:
@@ -44,23 +44,27 @@ class DispatcherQueue(object):
                     a.append(i)
         return a
 
-    def changedirectory(self, currdir, server = None):
+    def makefile(self, currdir):
+        serversize = {}
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:
-                for i in storage.listdir(currdir):
-                    if i == "server.py":
-                        continue
-                    a.append(i)
-        return 
+                serversize[server] = storage.size()
+        sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
+        # print (sorted_x[0][0])
+        with Pyro4.Proxy(sorted_x[0][0]) as storage:
+            storage.makefile(currdir)
 
 
+        # print (serversize)
+    # def changedirectory(self, currdir, server = None):
+    #     for server in self.serverlist:
+    #         with Pyro4.Proxy(server) as storage:
+    #             for i in storage.listdir(currdir):
+    #                 if i == "server.py":
+    #                     continue
+    #                 a.append(i)
+    #     return 
 
-
-                
-
-        
-
-    
 
 # main program
 

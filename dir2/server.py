@@ -52,16 +52,17 @@ class Jebret(object):
 	def move(self, src, dst):
 		os.rename(src, dst)
 
-	def putshut(self, mid):
-		self.daemon=mid
-		# print(self.daemon)
+	def putUri(self, uri):
+		self.daemon = uri
+		print(self.daemon)
 
-	def shut(self):
-		# self.daemon.shutdown()
-		mid=self.daemon
-		mid.shutdown()
-		sys.exit(0)
-
+	def size(self):
+		total_size = 0
+		for dirpath, dirnames, filenames in os.walk("."):
+		    for f in filenames:
+		        fp = os.path.join(dirpath, f)
+		        total_size += os.path.getsize(fp)	
+		return total_size
 
 
 def main():
@@ -77,7 +78,8 @@ def main():
 	        for f in filenames:
 	            fp = os.path.join(dirpath, f)
 	            total_size += os.path.getsize(fp)
-	    middleware.putWork(uri.asString(), total_size)
+	    tae=Pyro4.async(middleware)
+	    tae.putWork(uri.asString(), total_size)
 	    try:
 	    	daemon.requestLoop()
 	    except KeyboardInterrupt:
