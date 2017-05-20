@@ -6,16 +6,21 @@ import sys
 import Pyro4
 from shutil import copyfile
 
+
 # currdir = os.path.abspath('./')
 
 @Pyro4.expose
 @Pyro4.behavior(instance_mode="single")
 class Jebret(object):
+	tot = None
+
 	def __init__(self):
-		self.daemon=None
+		self.daemon = None
+		print("kontol")
 
 	def listdir(self, currdir):
 		a=[]
+		print(self.daemon)
 		try:
 			for i, file in enumerate(os.listdir(currdir)):
 				a.append(file)
@@ -52,15 +57,10 @@ class Jebret(object):
 	def move(self, src, dst):
 		os.rename(src, dst)
 
-	def putshut(self, mid):
-		self.daemon=mid
-		# print(self.daemon)
-
-	def shut(self):
-		# self.daemon.shutdown()
-		mid=self.daemon
-		mid.shutdown()
-		sys.exit(0)
+	def putUri(self, uri):
+		self.daemon = uri
+		print(self.daemon)
+		
 
 
 
@@ -77,8 +77,11 @@ def main():
 	        for f in filenames:
 	            fp = os.path.join(dirpath, f)
 	            total_size += os.path.getsize(fp)
-	    middleware.putWork(uri.asString(), total_size)
+	    tae=Pyro4.async(middleware)
+	    tae.putWork(uri.asString(), total_size)
+
 	    try:
+	    	
 	    	daemon.requestLoop()
 	    except KeyboardInterrupt:
 	    	raise KeyboardInterrupt('a')

@@ -8,6 +8,7 @@ uri ="PYRONAME:filesystem.middleware"
 jebret = Pyro4.Proxy(uri)
 # input=raw_input()
 currdir="./"
+currserver=""
 
 while True:
 	commands = []
@@ -22,7 +23,8 @@ while True:
 				print(i)
 		else:
 			for i in jebret.listdir(currdir+''+commands[1]):
-				print(i)
+				if i != "titdak ada":
+					print(i)
 
 		
 		
@@ -30,8 +32,18 @@ while True:
 		jebret.makefile(commands[1])
 	elif commands[0] == 'rm':
 		jebret.removefile(currdir+'/'+commands[1])
+
 	elif commands[0] == 'cd':
-		print jebret.changedirectory(commands[1])
+		if len(commands)==1:
+			currdir="./"
+			currserver=""
+		else:
+			if commands[1].split(commands, 1)[0]=="/":
+				print("a")
+			else:
+				print("b")
+
+
 	elif commands[0] == 'cp':
 		if '/' in commands[2]:
 			var1 = commands[2].split('/')[0]
