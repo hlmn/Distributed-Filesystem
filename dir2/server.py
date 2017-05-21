@@ -2,30 +2,25 @@ import os
 import socket
 import signal
 import sys
-
+import pickle
 import Pyro4
 from shutil import copyfile
-
 
 # currdir = os.path.abspath('./')
 
 @Pyro4.expose
 @Pyro4.behavior(instance_mode="single")
 class Jebret(object):
-	tot = None
-
 	def __init__(self):
-		self.daemon = None
-		print("kontol")
+		self.daemon=None
 
 	def listdir(self, currdir):
 		a=[]
-		print(self.daemon)
 		try:
 			for i, file in enumerate(os.listdir(currdir)):
 				a.append(file)
 		except Exception:
-			return a.append("tidak ada")
+			return a.append("titdak ada")
 		finally:
 			return a
 	#touch
@@ -36,9 +31,6 @@ class Jebret(object):
 	#rm
 	def removefile(self, path):
 		return os.remove(path)
-
-	def removedir(self, path):
-		return os.removedirs(path)
 
 	#cd
 	def changedirectory(self, path):
@@ -56,6 +48,28 @@ class Jebret(object):
 		# print src, dst
 		copyfile(src, dst)
 
+	def sendfile(self, dir):
+		# size = os.path.getsize(dir)
+		print dir
+		f = open(dir, 'rb')
+		print f# print 'kebuka'
+		isifile = ''
+		tmp = ''
+		while True:
+		    tmp = f.read(1)
+		    isifile += tmp
+		    if tmp == '':
+		    	break
+		f.close()
+		print isifile
+		return isifile
+
+	def recvfile(self, isifile, dir):
+		print ('ini server2'+isifile)
+		f = open(dir, 'wb')
+		f.write(isifile.encode("UTF-8"))
+		f.close()
+
 	#mv
 	def move(self, src, dst):
 		os.rename(src, dst)
@@ -69,20 +83,13 @@ class Jebret(object):
 		for dirpath, dirnames, filenames in os.walk("."):
 		    for f in filenames:
 		        fp = os.path.join(dirpath, f)
-		        total_size += os.path.getsize(fp)	
+		        total_size += os.path.getsize(fp)
 		return total_size
-	def checkdir(self, currdir):
+	def checkfile(self, dir):
+		return os.path.isfile(dir)
 
-		return os.path.isdir(currdir)
-
-	def checkfile(self, currdir):
-
-		return os.path.isfile(currdir)
-
-
-	
-
-
+	def checkdir(self, dir):
+		return os.path.isdir(dir)
 
 def main():
 	with Pyro4.Daemon(host="0.0.0.0") as daemon:

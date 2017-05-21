@@ -51,7 +51,7 @@ class DispatcherQueue(object):
                 if storage.checkdir(currdir):
                     print("kontol")
                     a = True
-
+        return a
     def copy(self, src, dst):
         isifile = ''
         print ('src-->'+ src)
