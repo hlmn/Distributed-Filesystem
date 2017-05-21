@@ -6,21 +6,26 @@ import sys
 import Pyro4
 from shutil import copyfile
 
+
 # currdir = os.path.abspath('./')
 
 @Pyro4.expose
 @Pyro4.behavior(instance_mode="single")
 class Jebret(object):
+	tot = None
+
 	def __init__(self):
-		self.daemon=None
+		self.daemon = None
+		print("kontol")
 
 	def listdir(self, currdir):
 		a=[]
+		print(self.daemon)
 		try:
 			for i, file in enumerate(os.listdir(currdir)):
 				a.append(file)
 		except Exception:
-			return a.append("titdak ada")
+			return a.append("tidak ada")
 		finally:
 			return a
 	#touch
@@ -31,6 +36,9 @@ class Jebret(object):
 	#rm
 	def removefile(self, path):
 		return os.remove(path)
+
+	def removedir(self, path):
+		return os.removedirs(path)
 
 	#cd
 	def changedirectory(self, path):
@@ -63,6 +71,17 @@ class Jebret(object):
 		        fp = os.path.join(dirpath, f)
 		        total_size += os.path.getsize(fp)	
 		return total_size
+	def checkdir(self, currdir):
+
+		return os.path.isdir(currdir)
+
+	def checkfile(self, currdir):
+
+		return os.path.isfile(currdir)
+
+
+	
+
 
 
 def main():

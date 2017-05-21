@@ -24,10 +24,9 @@ class DispatcherQueue(object):
 
     def putWork(self, item, totalsize):
         self.serverlist[item]=totalsize
+        # print(self.serverlist[item])
         put=Pyro4.Proxy(""+item)
         put.putUri(""+item)
-        # print(item)
-
         print(self.serverlist)
 
     def removeWork(self, item):
@@ -42,6 +41,7 @@ class DispatcherQueue(object):
                     if i == "server.py":
                         continue
                     a.append(i)
+                    print(i)
         return a
 
     def makefile(self, currdir):
@@ -54,6 +54,7 @@ class DispatcherQueue(object):
         with Pyro4.Proxy(sorted_x[0][0]) as storage:
             storage.makefile(currdir)
 
+        return a
 
         # print (serversize)
     # def changedirectory(self, currdir, server = None):

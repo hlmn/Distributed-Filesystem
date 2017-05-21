@@ -25,7 +25,7 @@ class Jebret(object):
 			for i, file in enumerate(os.listdir(currdir)):
 				a.append(file)
 		except Exception:
-			return a.append("titdak ada")
+			return a.append("tidak ada")
 		finally:
 			return a
 	#touch
@@ -36,6 +36,9 @@ class Jebret(object):
 	#rm
 	def removefile(self, path):
 		return os.remove(path)
+
+	def removedir(self, path):
+		return os.removedirs(path)
 
 	#cd
 	def changedirectory(self, path):
@@ -69,6 +72,16 @@ class Jebret(object):
 		        total_size += os.path.getsize(fp)	
 		return total_size
 
+	def checkdir(self, currdir):
+
+		return os.path.isdir(currdir)
+
+	def checkfile(self, currdir):
+
+		return os.path.isfile(currdir)
+	
+
+
 
 def main():
 	with Pyro4.Daemon(host="0.0.0.0") as daemon:
@@ -85,9 +98,7 @@ def main():
 	            total_size += os.path.getsize(fp)
 	    tae=Pyro4.async(middleware)
 	    tae.putWork(uri.asString(), total_size)
-
 	    try:
-	    	
 	    	daemon.requestLoop()
 	    except KeyboardInterrupt:
 	    	raise KeyboardInterrupt('a')
