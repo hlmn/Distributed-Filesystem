@@ -1,5 +1,5 @@
 from __future__ import print_function
-import operator
+
 try:
     import queue
 except ImportError:
@@ -24,10 +24,9 @@ class DispatcherQueue(object):
 
     def putWork(self, item, totalsize):
         self.serverlist[item]=totalsize
+        # print(self.serverlist[item])
         put=Pyro4.Proxy(""+item)
         put.putUri(""+item)
-        # print(item)
-
         print(self.serverlist)
 
     def removeWork(self, item):
@@ -42,17 +41,16 @@ class DispatcherQueue(object):
                     if i == "server.py":
                         continue
                     a.append(i)
+                    print(i)
         return a
 
-    def makefile(self, currdir):
-        serversize = {}
+    def changedirectory(self, currdir, server = None):
+        a = False
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:
-                serversize[server] = storage.size()
-        sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
-        # print (sorted_x[0][0])
-        with Pyro4.Proxy(sorted_x[0][0]) as storage:
-            storage.makefile(currdir)
+                if storage.checkdir(currdir):
+                    print("kontol")
+                    a = True
 
     def copy(self, src, dst):
         isifile = ''
@@ -70,17 +68,52 @@ class DispatcherQueue(object):
                     print ('ini mau dikirim-->'+isifile)
                     storage.recvfile(isifile, dst)
 
+    def makefile(self, currdir): 
+        serversize = {} 
+        for server in self.serverlist: 
+            with Pyro4.Proxy(server) as storage:
+                serversize[server] = storage.size() 
+        sorted_x = sorted(serversize.items(), key=operator.itemgetter(1)) 
+        # print (sorted_x[0][0]) 
+        with Pyro4.Proxy(sorted_x[0][0]) as storage: 
+            storage.makefile(currdir) 
 
-        # print (serversize)
-    # def changedirectory(self, currdir, server = None):
-    #     for server in self.serverlist:
-    #         with Pyro4.Proxy(server) as storage:
-    #             for i in storage.listdir(currdir):
-    #                 if i == "server.py":
-    #                     continue
-    #                 a.append(i)
-    #     return 
+    def check(self, currdir, storage = None):
+        return storage.check(currdir)
 
+
+    def removefile(self, currdir):
+        a = False
+        for server in self.serverlist:
+            with Pyro4.Proxy(server) as storage:
+                if storage.checkfile(currdir):
+                    print("kontol")
+                    storage.removefile(currdir)
+                    a = True
+
+        return a
+
+    def removedir(self, currdir):
+        a = False
+        for server in self.serverlist:
+            with Pyro4.Proxy(server) as storage:
+                if storage.checkdir(currdir):
+                    print("kontol")
+                    storage.removedir(currdir)
+                    a = True
+
+        return a
+
+
+
+
+
+
+                
+
+        
+
+    
 
 # main program
 

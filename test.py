@@ -9,10 +9,11 @@ jebret = Pyro4.Proxy(uri)
 # input=raw_input()
 currdir="./"
 currserver=""
+# print(./)
 
 while True:
 	commands = []
-	print currdir+'# ',
+	print (currdir+'# '),
 	command = raw_input()
 	commands.extend(command.split(' '))
 	# print commands
@@ -22,26 +23,77 @@ while True:
 			for i in jebret.listdir(currdir):
 				print(i)
 		else:
-			for i in jebret.listdir(currdir+''+commands[1]):
-				if i != "titdak ada":
-					print(i)
+			kontol=commands[1]
+			split = kontol.split()[0]
+
+			if split[0]=="/":
+				# jebret.changedirectory(currdir)
+				print('.'+commands[1])
+				for i in jebret.listdir('.'+commands[1]):
+					if i != "tidak ada":
+						print(i)
+				# print(currdir)
+			else:
+				if currdir == "./":
+					print(currdir+""+commands[1])
+					for i in jebret.listdir(currdir+""+commands[1]):
+						if i != "tidak ada":
+							print(i)
+				else:
+					print (currdir+'/'+commands[1])
+					for i in jebret.listdir(currdir+'/'+commands[1]):
+						if i != "tidak ada":
+							print(i)
+					# currdir=currdir+"/"+commands[1]
 
 		
 		
 	elif commands[0] == 'touch':
 		jebret.makefile(commands[1])
+		
 	elif commands[0] == 'rm':
-		jebret.removefile(currdir+'/'+commands[1])
+		if commands[1] == '-rf':
+			jebret.removedir(currdir+'/'+commands[2])
+			print(currdir+'/'+commands[2])
+		else:
+			jebret.removefile(currdir+'/'+commands[1])
 
 	elif commands[0] == 'cd':
 		if len(commands)==1:
 			currdir="./"
 			currserver=""
 		else:
-			if commands[1].split(commands, 1)[0]=="/":
-				print("a")
+			kontol=commands[1]
+			split = kontol.split()[0]
+			# print(split)
+			if commands[1] == "..":
+				res=currdir.split("/")
+				print(res)
+				tot=currdir.split("/"+res[len(res)-1])
+				tot[0]
+
+			elif split[0]=="/":
+				# jebret.changedirectory(currdir)
+				if jebret.changedirectory("."+commands[1]):
+					currdir="."+commands[1]
+				else:
+					print("Tidak ada")
+				
+				# print(currdir)
 			else:
-				print("b")
+				if currdir == "./":
+					if jebret.changedirectory(currdir+""+commands[1]):
+						currdir=currdir+""+commands[1]
+					else:
+						print("Tidak ada")
+					
+				else:
+					if jebret.changedirectory(currdir+"/"+commands[1]):
+						currdir=currdir+"/"+commands[1]
+					else:
+						# jebret.changedirectory(currdir+"/"+commands[1])
+						print("Tidak ada")
+
 
 
 	elif commands[0] == 'cp':
