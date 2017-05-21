@@ -84,21 +84,24 @@ while True:
 			currdir="./"
 			currserver=""
 		else:
+			print "masuk else 1"
 			kontol=commands[1]
 			split = kontol.split()[0]
 			# print(split)
 			if commands[1] == "..":
 
 				res=currdir.split("/")
-				print(res)
+				# print(res)
 				tot=currdir.split("/"+res[len(res)-1])
-				print(tot)
+				# print(tot)
 				currdir=tot[0]+"/"
 
 			elif split[0]=="/":
+				print "masuk elif 2"
 				# jebret.changedirectory(currdir)
 				if jebret.changedirectory("."+commands[1]):
 					currdir="."+commands[1]
+					print currdir
 				else:
 					print("Tidak ada")
 				
@@ -120,13 +123,48 @@ while True:
 
 
 	elif commands[0] == 'cp':
+		print commands
+
+		#kalo di copy ke root
 		if '/' in commands[2]:
-			var1 = commands[2].split('/')[0]
-			var2 = commands[2].split('/')[1]
-			jebret.copy(currdir+'/'+commands[1], currdir+'/'+var1+'/'+var2)
+			print currdir
+			xxx = currdir.split('/')			
+			# print "xxx asli->",xxx
+			newdir = xxx[0]
+			pindahNama = commands[2].split('/')
+			newName = pindahNama.pop()
+			print newName
+
+			#kalo mau ngerubah nama [BELUM BISA]
+			if newName is not '':
+				print "kontol"
+				satu = currdir+'/'+commands[1]
+				print "file asal->",satu
+				dua = newdir+'/'+newName
+				print "folder tujuan->",dua
+				jebret.copy(satu, dua)
+
+			#kalo nggak nerubah nama
+			else:
+				print "newdir->",newdir
+				satu = currdir+'/'+commands[1]
+				print "file asal : ",satu
+				dua = newdir
+				print "folder tujuan : ",dua
+				jebret.copy(satu, dua)
+
+		#kalo di copy ke .. (folder sebelumnya)
+		elif '..' in commands[2]:
+			print currdir
+			xxx = currdir.split('/')
+			print xxx
+			
+
 		elif os.path.isdir(commands[2]):
+			print "masuk elif"
 			jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
 		else:
+			print "masuk else"
 			jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2])
 
 	elif commands[0] == 'mv':
