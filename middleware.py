@@ -61,13 +61,26 @@ class DispatcherQueue(object):
             with Pyro4.Proxy(server) as storage:
                 if storage.checkfile(src) == True:
                     isifile = storage.sendfile(src)
+                    # kirim = pickle.dumps(isifile)
                 else:
                     continue
         for server in self.serverlist:
+            filename = src.split('/').pop()
+            if dst[len(dst)-1] != '/':
+                kirim = dst + '/' + filename
+            else:
+                kirim = dst + filename
+            print (filename)
+            print (dst)
+            print('check '+kirim+'\n isifile: '+isifile)
             with Pyro4.Proxy(server) as storage:
-                if storage.checkfile(dst) == False:
+                print (storage.checkfile(kirim))
+                print (storage.checkdir(dst))
+                if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
                     print ('ini mau dikirim-->'+isifile)
-                    storage.recvfile(isifile, dst)
+                    storage.recvfile(isifile, kirim)
+                else:
+                    continue
 
     def makefile(self, currdir): 
         serversize = {} 
