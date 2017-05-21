@@ -22,12 +22,16 @@ class Jebret(object):
 		a=[]
 		print(self.daemon)
 		try:
+			print currdir
 			for i, file in enumerate(os.listdir(currdir)):
 				a.append(file)
+
 		except Exception:
-			return a.append("tidak ada")
-		finally:
+			a.append("list tidak ada")
 			return a
+			# print('salah')
+		
+		return a
 	#touch
 	def makefile(self, path):
 	    with open(path, 'a'):

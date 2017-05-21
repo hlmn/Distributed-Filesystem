@@ -22,12 +22,16 @@ class Jebret(object):
 		a=[]
 		print(self.daemon)
 		try:
+			print currdir
 			for i, file in enumerate(os.listdir(currdir)):
 				a.append(file)
+
 		except Exception:
-			return a.append("tidak ada")
-		finally:
+			a.append("list tidak ada")
 			return a
+			# print('salah')
+		
+		return a
 	#touch
 	def makefile(self, path):
 	    with open(path, 'a'):
@@ -63,7 +67,7 @@ class Jebret(object):
 	def putUri(self, uri):
 		self.daemon = uri
 		print(self.daemon)
-
+	
 	def size(self):
 		total_size = 0
 		for dirpath, dirnames, filenames in os.walk("."):
@@ -71,6 +75,7 @@ class Jebret(object):
 		        fp = os.path.join(dirpath, f)
 		        total_size += os.path.getsize(fp)	
 		return total_size
+
 	def checkdir(self, currdir):
 
 		return os.path.isdir(currdir)
@@ -78,8 +83,6 @@ class Jebret(object):
 	def checkfile(self, currdir):
 
 		return os.path.isfile(currdir)
-
-
 	
 
 

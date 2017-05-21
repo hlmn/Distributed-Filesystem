@@ -7,6 +7,7 @@ except ImportError:
 import Pyro4
 from Pyro4.util import SerializerBase
 # from workitem import Workitem
+import operator
 
 
 # For 'workitem.Workitem' we register a deserialization hook to be able to get these back from Pyro
@@ -38,7 +39,7 @@ class DispatcherQueue(object):
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:
                 for i in storage.listdir(currdir):
-                    if i == "server.py":
+                    if i == "server.py" or i == "list tidak ada":
                         continue
                     a.append(i)
                     print(i)

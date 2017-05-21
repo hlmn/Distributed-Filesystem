@@ -30,26 +30,47 @@ while True:
 				# jebret.changedirectory(currdir)
 				print('.'+commands[1])
 				for i in jebret.listdir('.'+commands[1]):
-					if i != "tidak ada":
+					if i != "list tidak ada":
 						print(i)
 				# print(currdir)
 			else:
 				if currdir == "./":
-					print(currdir+""+commands[1])
+					# print(currdir+""+commands[1])
+					a=0
 					for i in jebret.listdir(currdir+""+commands[1]):
-						if i != "tidak ada":
+						if i != "list tidak ada":
 							print(i)
+						else: 
+							a+=1
+					if len(jebret.listdir(currdir+""+commands[1])) == a: 
+						print "tidak ada"
+
 				else:
-					print (currdir+'/'+commands[1])
+					a=0
 					for i in jebret.listdir(currdir+'/'+commands[1]):
-						if i != "tidak ada":
+						if i != "list tidak ada":
 							print(i)
+						else: 
+							a+=1
+					# print("nilai a ->",a)
+					if len(jebret.listdir(currdir+'/'+commands[1])) == a: 
+						print "tidak ada"
+
+
+					# print (currdir+'/'+commands[1])
+					# for i in jebret.listdir(currdir+'/'+commands[1]):
+					# 	# print(i)
+					# 	if i != "tidak ada":
+					# 		print("a")
+					# 	else:
+					# 		print("file ga ada")
+
 					# currdir=currdir+"/"+commands[1]
 
 		
 		
 	elif commands[0] == 'touch':
-		jebret.makefile(commands[1])
+		jebret.makefile(currdir+'/'+commands[1])
 		
 	elif commands[0] == 'rm':
 		if commands[1] == '-rf':
@@ -67,10 +88,12 @@ while True:
 			split = kontol.split()[0]
 			# print(split)
 			if commands[1] == "..":
+
 				res=currdir.split("/")
 				print(res)
 				tot=currdir.split("/"+res[len(res)-1])
-				tot[0]
+				print(tot)
+				currdir=tot[0]+"/"
 
 			elif split[0]=="/":
 				# jebret.changedirectory(currdir)
