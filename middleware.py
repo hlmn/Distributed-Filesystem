@@ -52,8 +52,22 @@ class DispatcherQueue(object):
                 if storage.checkdir(currdir):
                     print("kontol")
                     a = True
-
         return a
+    def copy(self, src, dst):
+        isifile = ''
+        print ('src-->'+ src)
+        print ('dst-->'+ dst)
+        for server in self.serverlist:
+            with Pyro4.Proxy(server) as storage:
+                if storage.checkfile(src) == True:
+                    isifile = storage.sendfile(src)
+                else:
+                    continue
+        for server in self.serverlist:
+            with Pyro4.Proxy(server) as storage:
+                if storage.checkfile(dst) == False:
+                    print ('ini mau dikirim-->'+isifile)
+                    storage.recvfile(isifile, dst)
 
     def makefile(self, currdir): 
         serversize = {} 

@@ -2,7 +2,7 @@ import os
 import socket
 import signal
 import sys
-
+import pickle
 import Pyro4
 from shutil import copyfile
 
@@ -41,9 +41,6 @@ class Jebret(object):
 	def removefile(self, path):
 		return os.remove(path)
 
-	def removedir(self, path):
-		return os.removedirs(path)
-
 	#cd
 	def changedirectory(self, path):
 		print path
@@ -53,13 +50,32 @@ class Jebret(object):
 
 		# currdir = os.path.abspath('.')
 		# return currdir
-		
-
 	#cp
 	def copy(self, src, dst):
 		# print src, dst
 		copyfile(src, dst)
 
+	def sendfile(self, dir):
+		# size = os.path.getsize(dir)
+		print dir
+		f = open(dir, 'rb')
+		# print 'kebuka'
+		isifile = ''
+		tmp = ''
+		while True:
+		    tmp = f.read(1)
+		    isifile += tmp
+		    if tmp == '':
+		    	break
+		f.close()
+		return isifile
+
+	def recvfile(self, isifile, dir):
+		print ('ini server1'+isifile)
+		f = open(dir, 'wb')
+		print f
+		f.write(isifile.encode("UTF-8"))
+		f.close()
 	#mv
 	def move(self, src, dst):
 		os.rename(src, dst)
@@ -75,16 +91,11 @@ class Jebret(object):
 		        fp = os.path.join(dirpath, f)
 		        total_size += os.path.getsize(fp)	
 		return total_size
+	def checkfile(self, dir):
+		return os.path.isfile(dir)
 
-	def checkdir(self, currdir):
-
-		return os.path.isdir(currdir)
-
-	def checkfile(self, currdir):
-
-		return os.path.isfile(currdir)
-	
-
+	def checkdir(self, dir):
+		return os.path.isdir(dir)
 
 
 def main():
@@ -102,7 +113,9 @@ def main():
 	            total_size += os.path.getsize(fp)
 	    tae=Pyro4.async(middleware)
 	    tae.putWork(uri.asString(), total_size)
+
 	    try:
+	    	
 	    	daemon.requestLoop()
 	    except KeyboardInterrupt:
 	    	raise KeyboardInterrupt('a')
