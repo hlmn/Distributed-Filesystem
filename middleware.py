@@ -53,6 +53,7 @@ class DispatcherQueue(object):
                     print("kontol")
                     a = True
         return a
+
     def copy(self, src, dst):
         isifile = ''
         print ('src-->'+ src)
@@ -79,6 +80,38 @@ class DispatcherQueue(object):
                 if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
                     print ('ini mau dikirim-->'+isifile)
                     storage.recvfile(isifile, kirim)
+                    # print(src)
+                    # self.removefile(src)
+                else:
+                    continue
+
+    def move(self, src, dst):
+        isifile = ''
+        print ('src-->'+ src)
+        print ('dst-->'+ dst)
+        for server in self.serverlist:
+            with Pyro4.Proxy(server) as storage:
+                if storage.checkfile(src) == True:
+                    isifile = storage.sendfile(src)
+                    # kirim = pickle.dumps(isifile)
+                else:
+                    continue
+        for server in self.serverlist:
+            filename = src.split('/').pop()
+            if dst[len(dst)-1] != '/':
+                kirim = dst + '/' + filename
+            else:
+                kirim = dst + filename
+            print (filename)
+            print (dst)
+            print('check '+kirim+'\n isifile: '+isifile)
+            with Pyro4.Proxy(server) as storage:
+                print (storage.checkfile(kirim))
+                print (storage.checkdir(dst))
+                if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
+                    print ('ini mau dikirim-->'+isifile)
+                    storage.recvfile(isifile, kirim)
+                    self.removefile(src)
                 else:
                     continue
 
