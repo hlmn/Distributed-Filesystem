@@ -91,9 +91,7 @@ class Jebret(object):
 		return total_size
 
 	def checkdir(self, currdir):
-
-	def checkdir(self, dir):
-		return os.path.isdir(dir)
+		return os.path.isdir(currdir)
 
 	def checkfile(self, currdir):
 
