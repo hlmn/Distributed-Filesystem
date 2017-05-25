@@ -1,4 +1,5 @@
 from __future__ import print_function
+import os
 
 try:
     import queue
@@ -62,18 +63,27 @@ class DispatcherQueue(object):
             with Pyro4.Proxy(server) as storage:
                 if storage.checkfile(src) == True:
                     isifile = storage.sendfile(src)
-                    # kirim = pickle.dumps(isifile)
+                    print ('masuk if di middleware')
                 else:
                     continue
         for server in self.serverlist:
-            filename = src.split('/').pop()
-            if dst[len(dst)-1] != '/':
-                kirim = dst + '/' + filename
+            if dst.split('/')[-1] != src:
+                print ('masuk if cuk')
+                filename = dst.split('/')[-1]
+                kirim = dst
+                print (filename)
+                print (dst)
+                print('check '+kirim+'\n isifile: '+isifile)
             else:
-                kirim = dst + filename
-            print (filename)
-            print (dst)
-            print('check '+kirim+'\n isifile: '+isifile)
+                print ('masuk else cuk')
+                filename = src.split('/').pop()
+                if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
+                    kirim = dst + '/' + filename
+                else: #misal dst nya ada slash
+                    kirim = dst + filename
+                print (filename)
+                print (dst)
+                print('check '+kirim+'\n isifile: '+isifile)
             with Pyro4.Proxy(server) as storage:
                 print (storage.checkfile(kirim))
                 print (storage.checkdir(dst))
@@ -82,6 +92,9 @@ class DispatcherQueue(object):
                     storage.recvfile(isifile, kirim)
                     # print(src)
                     # self.removefile(src)
+                elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
+                    print ('ini mau dikirim2-->'+isifile)
+                    storage.recvfile(isifile, kirim)
                 else:
                     continue
 
@@ -151,12 +164,11 @@ class DispatcherQueue(object):
 
         return a
 
+    def checkfile(self, dir):
+        return os.path.isfile(dir)
 
-
-
-
-
-                
+    def checkdir(self, dir):
+        return os.path.isdir(dir)           
 
         
 

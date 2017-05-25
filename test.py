@@ -123,21 +123,37 @@ while True:
 
 
 	elif commands[0] == 'cp':
-		print commands
+		print commands[2]
+		cwd = os.getcwd()
+
+		print "cwd bos :",cwd
+		cwdTambah = cwd+("/dir1")
+		print "cwd bos :",cwdTambah
+		bumek = False
+		bumek = jebret.checkdir(commands[2])
+
+		
+		print(os.path.isdir(commands[2]))
+		
+
+		print bumek
+
 
 		#kalo di copy ke root
-		if '/' in commands[2]:
-			print currdir
+		if commands[2][:1] == '/':
+			print "ini currdir :",currdir
 			xxx = currdir.split('/')			
+			print "ini xxx->",xxx
 			# print "xxx asli->",xxx
 			newdir = xxx[0]
 			pindahNama = commands[2].split('/')
 			newName = pindahNama.pop()
-			print newName
+			print "ini newName->",newName
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
-				print "kontol"
+
+				print "kontol terbang"
 				satu = currdir+'/'+commands[1]
 				print "file asal->",satu
 				dua = newdir+'/'+newName
@@ -157,15 +173,16 @@ while True:
 		elif '..' in commands[2]:
 			print currdir
 			xxx = currdir.split('/')
-			print xxx
-			
+			print xxx 
+		#kalo di copy ke tempat yg sama (dalam 1 folder)
+		# elif 
 
-		elif os.path.isdir(commands[2]):
-			print "masuk elif"
-			jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
+		# elif jebret.checkdir(commands[2]):
+		# 	print "masuk elif"
+		# 	jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
 		else:
-			print "masuk else"
-			jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2])
+			print "masuk else asdsads"
+			jebret.copy(currdir+commands[1], currdir+commands[2])
 
 	elif commands[0] == 'mv':
 		if '/' in commands[2]:

@@ -51,9 +51,6 @@ class Jebret(object):
 		# currdir = os.path.abspath('.')
 		# return currdir
 	#cp
-	def copy(self, src, dst):
-		# print src, dst
-		copyfile(src, dst)
 
 	def sendfile(self, dir):
 		# size = os.path.getsize(dir)
@@ -91,10 +88,15 @@ class Jebret(object):
 		        fp = os.path.join(dirpath, f)
 		        total_size += os.path.getsize(fp)	
 		return total_size
+
 	def checkfile(self, dir):
+		print os.path.isfile(dir)
+		print 'ini target' + dir
 		return os.path.isfile(dir)
 
 	def checkdir(self, dir):
+		print "masuk checkdir di server"
+		# print os.path.isdir(dir)
 		return os.path.isdir(dir)
 
 
