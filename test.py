@@ -124,20 +124,6 @@ while True:
 
 	elif commands[0] == 'cp':
 		print commands[2]
-		cwd = os.getcwd()
-
-		print "cwd bos :",cwd
-		cwdTambah = cwd+("/dir1")
-		print "cwd bos :",cwdTambah
-		bumek = False
-		bumek = jebret.checkdir(commands[2])
-
-		
-		print(os.path.isdir(commands[2]))
-		
-
-		print bumek
-
 
 		#kalo di copy ke root
 		if commands[2][:1] == '/':
@@ -170,16 +156,16 @@ while True:
 				jebret.copy(satu, dua)
 
 		#kalo di copy ke .. (folder sebelumnya)
-		elif '..' in commands[2]:
-			print currdir
-			xxx = currdir.split('/')
-			print xxx 
+		# elif '..' in commands[2]:
+		# 	print currdir
+		# 	xxx = currdir.split('/')
+		# 	print xxx 
 		#kalo di copy ke tempat yg sama (dalam 1 folder)
 		# elif 
 
-		# elif jebret.checkdir(commands[2]):
-		# 	print "masuk elif"
-		# 	jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
+		elif jebret.checkdir(commands[2]):
+			print "masuk elif"
+			jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
 		else:
 			print "masuk else asdsads"
 			jebret.copy(currdir+commands[1], currdir+commands[2])

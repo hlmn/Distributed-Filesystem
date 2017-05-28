@@ -4,18 +4,23 @@ import signal
 import sys
 import pickle
 import Pyro4
-from shutil import copyfile
+import shutil
+
 
 # currdir = os.path.abspath('./')
 
 @Pyro4.expose
 @Pyro4.behavior(instance_mode="single")
 class Jebret(object):
+	tot = None
+
 	def __init__(self):
-		self.daemon=None
+		self.daemon = None
+		print("kontol")
 
 	def listdir(self, currdir):
 		a=[]
+		print(self.daemon)
 		try:
 			print currdir
 			for i, file in enumerate(os.listdir(currdir)):
@@ -36,6 +41,9 @@ class Jebret(object):
 	def removefile(self, path):
 		return os.remove(path)
 
+	def removedir(self, path):
+		return shutil.rmtree(path)
+
 	#cd
 	def changedirectory(self, path):
 		print path
@@ -45,18 +53,13 @@ class Jebret(object):
 
 		# currdir = os.path.abspath('.')
 		# return currdir
-		
-
 	#cp
-	def copy(self, src, dst):
-		# print src, dst
-		copyfile(src, dst)
 
 	def sendfile(self, dir):
 		# size = os.path.getsize(dir)
 		print dir
 		f = open(dir, 'rb')
-		print f# print 'kebuka'
+		# print 'kebuka'
 		isifile = ''
 		tmp = ''
 		while True:
@@ -65,15 +68,14 @@ class Jebret(object):
 		    if tmp == '':
 		    	break
 		f.close()
-		print isifile
 		return isifile
 
 	def recvfile(self, isifile, dir):
-		print ('ini server2'+isifile)
+		print ('ini server1'+isifile)
 		f = open(dir, 'wb')
+		print f
 		f.write(isifile.encode("UTF-8"))
 		f.close()
-
 	#mv
 	def move(self, src, dst):
 		os.rename(src, dst)
@@ -87,17 +89,18 @@ class Jebret(object):
 		for dirpath, dirnames, filenames in os.walk("."):
 		    for f in filenames:
 		        fp = os.path.join(dirpath, f)
-		        total_size += os.path.getsize(fp)
+		        total_size += os.path.getsize(fp)	
 		return total_size
 
-	def checkdir(self, currdir):
-		return os.path.isdir(currdir)
+	def checkfile(self, dir):
+		print os.path.isfile(dir)
+		print 'ini target' + dir
+		return os.path.isfile(dir)
 
-	def checkfile(self, currdir):
-
-		return os.path.isfile(currdir)
-	
-
+	def checkdir(self, dir):
+		print "masuk checkdir di server"
+		# print os.path.isdir(dir)
+		return os.path.isdir(dir)
 
 
 def main():
@@ -115,7 +118,9 @@ def main():
 	            total_size += os.path.getsize(fp)
 	    tae=Pyro4.async(middleware)
 	    tae.putWork(uri.asString(), total_size)
+
 	    try:
+	    	
 	    	daemon.requestLoop()
 	    except KeyboardInterrupt:
 	    	raise KeyboardInterrupt('a')

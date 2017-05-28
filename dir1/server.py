@@ -4,7 +4,7 @@ import signal
 import sys
 import pickle
 import Pyro4
-from shutil import copyfile
+import shutil
 
 
 # currdir = os.path.abspath('./')
@@ -40,6 +40,9 @@ class Jebret(object):
 	#rm
 	def removefile(self, path):
 		return os.remove(path)
+
+	def removedir(self, path):
+		return shutil.rmtree(path)
 
 	#cd
 	def changedirectory(self, path):

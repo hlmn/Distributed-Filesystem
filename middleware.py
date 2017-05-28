@@ -59,44 +59,89 @@ class DispatcherQueue(object):
         isifile = ''
         print ('src-->'+ src)
         print ('dst-->'+ dst)
+        serversize = {}
         for server in self.serverlist:
-            with Pyro4.Proxy(server) as storage:
+            with Pyro4.Proxy(server) as storage:                
                 if storage.checkfile(src) == True:
                     isifile = storage.sendfile(src)
                     print ('masuk if di middleware')
+                    serversize[server] = storage.size()
                 else:
                     continue
+        sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
+                 
         for server in self.serverlist:
-            if dst.split('/')[-1] != src:
-                print ('masuk if cuk')
-                filename = dst.split('/')[-1]
-                kirim = dst
-                print (filename)
-                print (dst)
-                print('check '+kirim+'\n isifile: '+isifile)
-            else:
-                print ('masuk else cuk')
-                filename = src.split('/').pop()
-                if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
-                    kirim = dst + '/' + filename
-                else: #misal dst nya ada slash
-                    kirim = dst + filename
-                print (filename)
-                print (dst)
-                print('check '+kirim+'\n isifile: '+isifile)
+            print (src)
+            print ("=================")
+            print (src.split('/').pop())
+            print ("=================")
+            print (dst.split('/')[-1])
+            print ("=================")
+
             with Pyro4.Proxy(server) as storage:
-                print (storage.checkfile(kirim))
-                print (storage.checkdir(dst))
-                if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
-                    print ('ini mau dikirim-->'+isifile)
-                    storage.recvfile(isifile, kirim)
-                    # print(src)
-                    # self.removefile(src)
-                elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
-                    print ('ini mau dikirim2-->'+isifile)
-                    storage.recvfile(isifile, kirim)
+                kunam = False
+                if storage.checkdir(dst.split('/')[-1]) == False:
+                    kunam = False
+                elif storage.checkdir(dst.split('/')[-1]) == True:
+                    kunam = True
+
+                print ("kunam adalah",kunam)
+
+                if kunam == False and dst.split('/')[-1] != src.split('/').pop(): #kalo ganti nama
+                    if dst.split('/')[-1] == ".":
+                        print ("masuk elif cuk")
+                        filename = src.split('/').pop()
+                        if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
+                            print ("masuk if qontol")
+                            kirim = dst + '/' + filename
+                        else: #misal dst nya ada slash
+                            print ("masuk else qontol")
+                            kirim = dst + filename
+                        print (filename)
+                        print (dst)
+                        print('check '+kirim+'\n isifile: '+isifile)
+                    else:
+                        print ('masuk if cuk')
+                        filename = dst.split('/')[-1]
+                        
+                        kirim = dst
+                        print (filename)
+                        print (dst)
+                        print('check '+kirim+'\n isifile: '+isifile)
+
+
                 else:
-                    continue
+                    print ('masuk else cuk')
+                    filename = src.split('/').pop()
+                    if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
+                        print ("masuk if qontol")
+                        kirim = dst + '/' + filename
+                    else: #misal dst nya ada slash
+                        print ("masuk else qontol")
+                        kirim = dst + filename
+                    print (filename)
+                    print (dst)
+                    print('check '+kirim+'\n isifile: '+isifile)
+                with Pyro4.Proxy(sorted_x[0][0]) as storage:
+                    # serversize[server] = storage.size() 
+                    # sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
+
+                    print (storage.checkfile(kirim))
+                    print (storage.checkdir(dst))
+                    if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
+                        print ('ini mau dikirim-->'+isifile)
+                        storage.recvfile(isifile, kirim)
+                        # self.removefile(src)
+                        # print(src)
+                        # self.removefile(src)
+                    elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
+                        print ('ini mau dikirim2-->'+isifile)
+                        storage.recvfile(isifile, kirim)
+                        # self.removefile(src)
+                    else:
+                        continue
+
+
 
     def move(self, src, dst):
         isifile = ''
@@ -179,3 +224,4 @@ class DispatcherQueue(object):
 Pyro4.Daemon.serveSimple({
     DispatcherQueue: "filesystem.middleware"
 })
+
