@@ -55,6 +55,35 @@ class DispatcherQueue(object):
                     a = True
         return a
 
+    #Define dst path file yang baru (misal 'folde1/' -> 'folder1/fileName', misal 'folder1' -> 'folder1/fileName')
+    def fullPath(dst,fileName):
+        kirim = {}
+        #Case path -> 'folder1'
+        if dst[len(dst)-1] != '/':
+            kirim = dst + '/' + filename
+        #Case path -> 'folder1/'
+        else: 
+            kirim = dst + filename
+        return kirim
+
+    #Send File, DST Server, src(src file yang mau di copy), dst(dst path in server)
+    def pyroSendFile(server, src, dst, isifile):
+        with Pyro4.Proxy(server) as storage:
+            #Folder udah ada, nama file di src di tambah ke dst
+            if storage.checkdir(dst) == True:
+                fileName = src.split('/').pop()
+                kirim = fullPath(dst,fileName)
+                #kirim file ke tujuan
+                storage.recvfile(isifile,kirim)
+            #Folder belum ada
+            elif storage.checkdir(dst) == False:
+                #File ga ada
+                if storage.checkfile(dst) == False:
+                    kirim = dst
+                    #kirim file ke tujuan
+                    storage.recvfile(isifile,kirim)
+            
+
     def copy(self, src, dst):
         isifile = ''
         print ('src-->'+ src)
@@ -67,36 +96,7 @@ class DispatcherQueue(object):
                 else:
                     continue
         for server in self.serverlist:
-            if dst.split('/')[-1] != src:
-                print ('masuk if cuk')
-                filename = dst.split('/')[-1]
-                kirim = dst
-                print (filename)
-                print (dst)
-                print('check '+kirim+'\n isifile: '+isifile)
-            else:
-                print ('masuk else cuk')
-                filename = src.split('/').pop()
-                if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
-                    kirim = dst + '/' + filename
-                else: #misal dst nya ada slash
-                    kirim = dst + filename
-                print (filename)
-                print (dst)
-                print('check '+kirim+'\n isifile: '+isifile)
-            with Pyro4.Proxy(server) as storage:
-                print (storage.checkfile(kirim))
-                print (storage.checkdir(dst))
-                if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
-                    print ('ini mau dikirim-->'+isifile)
-                    storage.recvfile(isifile, kirim)
-                    # print(src)
-                    # self.removefile(src)
-                elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
-                    print ('ini mau dikirim2-->'+isifile)
-                    storage.recvfile(isifile, kirim)
-                else:
-                    continue
+            pyroSendFile(server, src, dst, isifile)
 
     def move(self, src, dst):
         isifile = ''
@@ -110,23 +110,81 @@ class DispatcherQueue(object):
                 else:
                     continue
         for server in self.serverlist:
-            filename = src.split('/').pop()
-            if dst[len(dst)-1] != '/':
-                kirim = dst + '/' + filename
-            else:
-                kirim = dst + filename
-            print (filename)
-            print (dst)
-            print('check '+kirim+'\n isifile: '+isifile)
-            with Pyro4.Proxy(server) as storage:
-                print (storage.checkfile(kirim))
-                print (storage.checkdir(dst))
-                if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
-                    print ('ini mau dikirim-->'+isifile)
-                    storage.recvfile(isifile, kirim)
-                    self.removefile(src)
-                else:
-                    continue
+             pyroSendFile(server, src, dst, isifile)
+        self.removefile(src)
+
+    # def copy(self, src, dst):
+    #     isifile = ''
+    #     print ('src-->'+ src)
+    #     print ('dst-->'+ dst)
+    #     for server in self.serverlist:
+    #         with Pyro4.Proxy(server) as storage:
+    #             if storage.checkfile(src) == True:
+    #                 isifile = storage.sendfile(src)
+    #                 print ('masuk if di middleware')
+    #             else:
+    #                 continue
+    #     for server in self.serverlist:
+    #         if dst.split('/')[-1] != src:
+    #             print ('masuk if cuk')
+    #             filename = dst.split('/')[-1]
+    #             kirim = dst
+    #             print (filename)
+    #             print (dst)
+    #             print('check '+kirim+'\n isifile: '+isifile)
+    #         else:
+    #             print ('masuk else cuk')
+    #             filename = src.split('/').pop()
+    #             if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
+    #                 kirim = dst + '/' + filename
+    #             else: #misal dst nya ada slash
+    #                 kirim = dst + filename
+    #             print (filename)
+    #             print (dst)
+    #             print('check '+kirim+'\n isifile: '+isifile)
+    #         with Pyro4.Proxy(server) as storage:
+    #             print (storage.checkfile(kirim))
+    #             print (storage.checkdir(dst))
+    #             if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
+    #                 print ('ini mau dikirim-->'+isifile)
+    #                 storage.recvfile(isifile, kirim)
+    #                 # print(src)
+    #                 # self.removefile(src)
+    #             elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
+    #                 print ('ini mau dikirim2-->'+isifile)
+    #                 storage.recvfile(isifile, kirim)
+    #             else:
+    #                 continue
+
+    # def move(self, src, dst):
+    #     isifile = ''
+    #     print ('src-->'+ src)
+    #     print ('dst-->'+ dst)
+    #     for server in self.serverlist:
+    #         with Pyro4.Proxy(server) as storage:
+    #             if storage.checkfile(src) == True:
+    #                 isifile = storage.sendfile(src)
+    #                 # kirim = pickle.dumps(isifile)
+    #             else:
+    #                 continue
+    #     for server in self.serverlist:
+    #         filename = src.split('/').pop()
+    #         if dst[len(dst)-1] != '/':
+    #             kirim = dst + '/' + filename
+    #         else:
+    #             kirim = dst + filename
+    #         print (filename)
+    #         print (dst)
+    #         print('check '+kirim+'\n isifile: '+isifile)
+    #         with Pyro4.Proxy(server) as storage:
+    #             print (storage.checkfile(kirim))
+    #             print (storage.checkdir(dst))
+    #             if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
+    #                 print ('ini mau dikirim-->'+isifile)
+    #                 storage.recvfile(isifile, kirim)
+    #                 self.removefile(src)
+    #             else:
+    #                 continue
 
     def makefile(self, currdir): 
         serversize = {} 
