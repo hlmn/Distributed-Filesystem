@@ -71,11 +71,29 @@ class Jebret(object):
 		return isifile
 
 	def recvfile(self, isifile, dir):
-		print ('ini server1'+isifile)
-		f = open(dir, 'wb')
-		print f
-		f.write(isifile.encode("UTF-8"))
-		f.close()
+
+		dira = list(dir)
+		if dira[0] == '/':
+			print(dira)
+			dira.reverse()
+			print("======")
+			print(dira.pop())
+			dira.reverse()
+		
+		# dir=str(dira)
+		# print dir
+			print ('ini server1'+isifile)
+			f = open(''.join(dira), 'wb')
+			print f
+			f.write(isifile.encode("UTF-8"))
+			f.close()
+		else:
+			print ('ini server1'+isifile)
+			f = open(dir, 'wb')
+			print f
+			f.write(isifile.encode("UTF-8"))
+			f.close()
+		# print(l)
 	#mv
 	def move(self, src, dst):
 		os.rename(src, dst)

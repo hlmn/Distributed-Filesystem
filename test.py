@@ -134,6 +134,7 @@ while True:
 			newdir = xxx[0]
 			pindahNama = commands[2].split('/')
 			newName = pindahNama.pop()
+
 			print "ini newName->",newName
 
 			#kalo mau ngerubah nama [BELUM BISA]
@@ -143,8 +144,10 @@ while True:
 				satu = currdir+'/'+commands[1]
 				print "file asal->",satu
 				dua = newdir+'/'+newName
+
+		
 				print "folder tujuan->",dua
-				jebret.copy(satu, dua)
+				jebret.copy(satu, commands[2])
 
 			#kalo nggak nerubah nama
 			else:

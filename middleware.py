@@ -77,10 +77,29 @@ class DispatcherQueue(object):
             print ("=================")
             print (dst.split('/')[-1])
             print ("=================")
+            print (dst)
+            print (dst.split('/'))
+
+            cekcek = (dst.split('/'))
+            cekcek.reverse()
+            print ("asdasd", cekcek)
+            anjing=False
+            ea = cekcek[len(cekcek)-2]
+            print(ea)
+
+            for ngentot in self.serverlist:
+                with Pyro4.Proxy(ngentot) as anjink:
+                    if anjink.checkdir(ea):
+                        anjing=True
+                        serveranjing=ngentot
+                    
 
             with Pyro4.Proxy(server) as storage:
+                
                 kunam = False
                 if storage.checkdir(dst.split('/')[-1]) == False:
+                    # if cekcek[len(cekcek)-2]:
+                    #     anjing=True
                     kunam = False
                 elif storage.checkdir(dst.split('/')[-1]) == True:
                     kunam = True
@@ -122,24 +141,48 @@ class DispatcherQueue(object):
                     print (filename)
                     print (dst)
                     print('check '+kirim+'\n isifile: '+isifile)
-                with Pyro4.Proxy(sorted_x[0][0]) as storage:
+
+                if anjing is True:
+                    print('anjing')
+                    print(serveranjing)
+                    with Pyro4.Proxy(serveranjing) as storage:
                     # serversize[server] = storage.size() 
                     # sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
 
-                    print (storage.checkfile(kirim))
-                    print (storage.checkdir(dst))
-                    if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
-                        print ('ini mau dikirim-->'+isifile)
-                        storage.recvfile(isifile, kirim)
-                        # self.removefile(src)
-                        # print(src)
-                        # self.removefile(src)
-                    elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
-                        print ('ini mau dikirim2-->'+isifile)
-                        storage.recvfile(isifile, kirim)
-                        # self.removefile(src)
-                    else:
-                        continue
+                        print (storage.checkfile(kirim))
+                        print (storage.checkdir(dst))
+                        if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
+                            print ('ini mau dikirim-->'+isifile)
+                            storage.recvfile(isifile, kirim)
+                            # self.removefile(src)
+                            # print(src)
+                            # self.removefile(src)
+                        elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
+                            print ('ini mau dikirim2-->'+isifile)
+                            storage.recvfile(isifile, kirim)
+                            # self.removefile(src)
+                        else:
+                            continue
+                else:
+                    print("kucingh")
+
+                    with Pyro4.Proxy(sorted_x[0][0]) as storage:
+                        # serversize[server] = storage.size() 
+                        # sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
+                        print (storage.checkfile(kirim))
+                        print (storage.checkdir(dst))
+                        if storage.checkfile(kirim) == False and storage.checkdir(dst) == True:
+                            print ('ini mau dikirim-->'+isifile)
+                            storage.recvfile(isifile, kirim)
+                            # self.removefile(src)
+                            # print(src)
+                            # self.removefile(src)
+                        elif storage.checkfile(kirim) == False and storage.checkdir(dst) == False:
+                            print ('ini mau dikirim2-->'+isifile)
+                            storage.recvfile(isifile, kirim)
+                            # self.removefile(src)
+                        else:
+                            continue
 
 
 
