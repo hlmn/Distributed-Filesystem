@@ -205,14 +205,89 @@ while True:
 			jebret.copy(currdir+commands[1], currdir+commands[2])
 
 	elif commands[0] == 'mv':
-		if '/' in commands[2]:
-			var1 = commands[2].split('/')[0]
-			var2 = commands[2].split('/')[1]
-			jebret.move(currdir+'/'+commands[1], currdir+'/'+var1+'/'+var2)	
-		elif os.path.isdir(commands[2]):
+		print commands[2]
+		print commands[2][:1]
+		#kalo di copy ke root
+		if commands[2][:1] == '/':
+			print "ini currdir :",currdir
+			xxx = currdir.split('/')			
+			print "ini xxx->",xxx
+			# print "xxx asli->",xxx
+			newdir = xxx[0]
+			pindahNama = commands[2].split('/')
+			newName = pindahNama.pop()
+
+			print "ini newName->",newName
+
+			#kalo mau ngerubah nama [BELUM BISA]
+			if newName is not '':
+
+				print "kontol terbang"
+				satu = currdir+'/'+commands[1]
+				print "file asal->",satu
+				dua = newdir+'/'+newName
+
+		
+				print "folder tujuan->",dua
+				jebret.move(satu, commands[2])
+
+			#kalo nggak nerubah nama
+			else:
+				print "newdir->",newdir
+				satu = currdir+'/'+commands[1]
+				print "file asal : ",satu
+				dua = newdir
+				print "folder tujuan : ",dua
+				jebret.move(satu, dua)
+		elif commands[2][:1] != '/':
+			print "ini currdir :",currdir
+			xxx = currdir.split('/')			
+			print "ini xxx->",xxx
+			# print "xxx asli->",xxx
+			newdir = xxx[0]
+			pindahNama = commands[2].split('/')
+			newName = pindahNama.pop()
+
+			print "ini newName->",newName
+
+			#kalo mau ngerubah nama [BELUM BISA]
+			if newName is not '':
+
+				print "kontol terbang"
+				satu = currdir+'/'+commands[1]
+				print "file asal->",satu
+				dua = newdir+'/'+newName
+
+		
+				print "folder tujuan->",dua
+				jebret.move(satu, currdir+'/'+commands[2])
+
+			#kalo nggak nerubah nama
+			else:
+				print "newdir->",newdir
+				satu = currdir+'/'+commands[1]
+				print "file asal : ",satu
+				dua = newdir
+				print "folder tujuan : ",dua
+				jebret.move(satu, dua)
+
+		#kalo di copy ke .. (folder sebelumnya)
+		# elif '..' in commands[2]:
+		# 	print currdir
+		# 	xxx = currdir.split('/')
+		# 	print xxx 
+		#kalo di copy ke tempat yg sama (dalam 1 folder)
+		# elif 
+
+		elif jebret.checkdir(commands[2]):
+			print "masuk elif"
 			jebret.move(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
 		else:
-			jebret.move(currdir+'/'+commands[1], currdir+'/'+commands[2])
+			print "masuk else asdsads"
+			jebret.move(currdir+commands[1], currdir+commands[2])
+
+
+	
 
 			
 		# removefile(currdir+'/'+commands[1])
