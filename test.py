@@ -124,7 +124,7 @@ while True:
 
 	elif commands[0] == 'cp':
 		print commands[2]
-
+		print commands[2][:1]
 		#kalo di copy ke root
 		if commands[2][:1] == '/':
 			print "ini currdir :",currdir
@@ -148,6 +148,37 @@ while True:
 		
 				print "folder tujuan->",dua
 				jebret.copy(satu, commands[2])
+
+			#kalo nggak nerubah nama
+			else:
+				print "newdir->",newdir
+				satu = currdir+'/'+commands[1]
+				print "file asal : ",satu
+				dua = newdir
+				print "folder tujuan : ",dua
+				jebret.copy(satu, dua)
+		elif commands[2][:1] != '/':
+			print "ini currdir :",currdir
+			xxx = currdir.split('/')			
+			print "ini xxx->",xxx
+			# print "xxx asli->",xxx
+			newdir = xxx[0]
+			pindahNama = commands[2].split('/')
+			newName = pindahNama.pop()
+
+			print "ini newName->",newName
+
+			#kalo mau ngerubah nama [BELUM BISA]
+			if newName is not '':
+
+				print "kontol terbang"
+				satu = currdir+'/'+commands[1]
+				print "file asal->",satu
+				dua = newdir+'/'+newName
+
+		
+				print "folder tujuan->",dua
+				jebret.copy(satu, currdir+'/'+commands[2])
 
 			#kalo nggak nerubah nama
 			else:
