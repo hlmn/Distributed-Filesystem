@@ -325,10 +325,25 @@ class DispatcherQueue(object):
 
     
 
-    def makefile(self, currdir): 
+    def makefile(self, currdir, dst): 
         serversize = {}
-        print ("curidr->", currdir)
 
+
+
+        dira = list(dst)
+        print (dira)
+        if dira[0] == '/':
+            print(dira)
+            dira.reverse()
+            print("======")
+            print(dira.pop())
+            dira.reverse()
+            oo = True
+        else:
+            oo = False
+
+
+        print (currdir)
         cekcek = (currdir.split('/'))
         cekcek.reverse()
         print ("asdasd", cekcek)
@@ -340,18 +355,18 @@ class DispatcherQueue(object):
             with Pyro4.Proxy(ngentot) as anjink:
                 if anjink.checkdir(ea):
                     anjing=True
-                    serveranjing=ngentot
+                    serveranjing=ngentot 
 
-        if anjing == False:
+        if anjing==False or oo==True:   
+            print ("aaa") 
             for server in self.serverlist: 
                 with Pyro4.Proxy(server) as storage:
                     serversize[server] = storage.size() 
             sorted_x = sorted(serversize.items(), key=operator.itemgetter(1)) 
             # print (sorted_x[0][0]) 
             with Pyro4.Proxy(sorted_x[0][0]) as storage: 
-                storage.makefile(currdir) 
+                storage.makefile(''.join(dira)) 
         else:
-            print(currdir)
             with Pyro4.Proxy(serveranjing) as storage: 
                 storage.makefile(currdir) 
 
