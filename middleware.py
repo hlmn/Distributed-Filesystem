@@ -51,7 +51,6 @@ class DispatcherQueue(object):
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:
                 if storage.checkdir(currdir):
-                    print("kontol")
                     a = True
         return a
 
@@ -82,7 +81,7 @@ class DispatcherQueue(object):
 
             cekcek = (dst.split('/'))
             cekcek.reverse()
-            print ("asdasd", cekcek)
+
             anjing=False
             ea = cekcek[len(cekcek)-2]
             print(ea)
@@ -92,10 +91,8 @@ class DispatcherQueue(object):
                     if anjink.checkdir(ea):
                         anjing=True
                         serveranjing=ngentot
-                    
-
-            with Pyro4.Proxy(server) as storage:
-                
+            
+            with Pyro4.Proxy(server) as storage
                 kunam = False
                 if storage.checkdir(dst.split('/')[-1]) == False:
                     # if cekcek[len(cekcek)-2]:
@@ -103,26 +100,19 @@ class DispatcherQueue(object):
                     kunam = False
                 elif storage.checkdir(dst.split('/')[-1]) == True:
                     kunam = True
-
-                print ("kunam adalah",kunam)
-
+                
                 if kunam == False and dst.split('/')[-1] != src.split('/').pop(): #kalo ganti nama
                     if dst.split('/')[-1] == ".":
-                        print ("masuk elif cuk")
                         filename = src.split('/').pop()
                         if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
-                            print ("masuk if qontol")
                             kirim = dst + '/' + filename
                         else: #misal dst nya ada slash
-                            print ("masuk else qontol")
                             kirim = dst + filename
                         print (filename)
                         print (dst)
                         print('check '+kirim+'\n isifile: '+isifile)
                     else:
-                        print ('masuk if cuk')
                         filename = dst.split('/')[-1]
-                        
                         kirim = dst
                         print (filename)
                         print (dst)
@@ -130,20 +120,17 @@ class DispatcherQueue(object):
 
 
                 else:
-                    print ('masuk else cuk')
                     filename = src.split('/').pop()
                     if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
-                        print ("masuk if qontol")
                         kirim = dst + '/' + filename
                     else: #misal dst nya ada slash
-                        print ("masuk else qontol")
                         kirim = dst + filename
                     print (filename)
                     print (dst)
                     print('check '+kirim+'\n isifile: '+isifile)
 
                 if anjing is True:
-                    print('anjing')
+                    #print('anjing')
                     print(serveranjing)
                     with Pyro4.Proxy(serveranjing) as storage:
                     # serversize[server] = storage.size() 
@@ -166,7 +153,6 @@ class DispatcherQueue(object):
                         else:
                             continue
                 else:
-                    print("kucingh")
 
                     with Pyro4.Proxy(sorted_x[0][0]) as storage:
                         # serversize[server] = storage.size() 
@@ -215,7 +201,7 @@ class DispatcherQueue(object):
 
             cekcek = (dst.split('/'))
             cekcek.reverse()
-            print ("asdasd", cekcek)
+            
             anjing=False
             ea = cekcek[len(cekcek)-2]
             print(ea)
@@ -237,23 +223,17 @@ class DispatcherQueue(object):
                 elif storage.checkdir(dst.split('/')[-1]) == True:
                     kunam = True
 
-                print ("kunam adalah",kunam)
-
                 if kunam == False and dst.split('/')[-1] != src.split('/').pop(): #kalo ganti nama
                     if dst.split('/')[-1] == ".":
-                        print ("masuk elif cuk")
                         filename = src.split('/').pop()
                         if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
-                            print ("masuk if qontol")
                             kirim = dst + '/' + filename
                         else: #misal dst nya ada slash
-                            print ("masuk else qontol")
                             kirim = dst + filename
                         print (filename)
                         print (dst)
                         print('check '+kirim+'\n isifile: '+isifile)
                     else:
-                        print ('masuk if cuk')
                         filename = dst.split('/')[-1]
                         
                         kirim = dst
@@ -263,20 +243,16 @@ class DispatcherQueue(object):
 
 
                 else:
-                    print ('masuk else cuk')
                     filename = src.split('/').pop()
                     if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
-                        print ("masuk if qontol")
                         kirim = dst + '/' + filename
                     else: #misal dst nya ada slash
-                        print ("masuk else qontol")
                         kirim = dst + filename
                     print (filename)
                     print (dst)
                     print('check '+kirim+'\n isifile: '+isifile)
 
                 if anjing is True:
-                    print('anjing')
                     print(serveranjing)
                     with Pyro4.Proxy(serveranjing) as storage:
                     # serversize[server] = storage.size() 
@@ -299,8 +275,6 @@ class DispatcherQueue(object):
                         else:
                             continue
                 else:
-                    print("kucingh")
-
                     with Pyro4.Proxy(sorted_x[0][0]) as storage:
                         # serversize[server] = storage.size() 
                         # sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
@@ -379,7 +353,6 @@ class DispatcherQueue(object):
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:
                 if storage.checkfile(currdir):
-                    print("kontol")
                     storage.removefile(currdir)
                     a = True
 
@@ -390,7 +363,6 @@ class DispatcherQueue(object):
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:
                 if storage.checkdir(currdir):
-                    print("kontol")
                     storage.removedir(currdir)
                     a = True
 
