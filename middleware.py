@@ -130,7 +130,7 @@ class DispatcherQueue(object):
                     print('check '+kirim+'\n isifile: '+isifile)
 
                 if anjing is True:
-                    #print('anjing')
+                    
                     print(serveranjing)
                     with Pyro4.Proxy(serveranjing) as storage:
                     # serversize[server] = storage.size() 

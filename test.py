@@ -86,7 +86,6 @@ while True:
 			currdir="./"
 			currserver=""
 		else:
-			print "masuk else 1"
 			kontol=commands[1]
 			split = kontol.split()[0]
 			# print(split)
@@ -99,7 +98,6 @@ while True:
 				currdir=tot[0]+"/"
 
 			elif split[0]=="/":
-				print "masuk elif 2"
 				# jebret.changedirectory(currdir)
 				if jebret.changedirectory("."+commands[1]):
 					currdir="."+commands[1]
@@ -142,7 +140,6 @@ while True:
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
 
-				print "kontol terbang"
 				satu = currdir+'/'+commands[1]
 				print "file asal->",satu
 				dua = newdir+'/'+newName
@@ -173,7 +170,6 @@ while True:
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
 
-				print "kontol terbang"
 				satu = currdir+'/'+commands[1]
 				print "file asal->",satu
 				dua = newdir+'/'+newName
@@ -200,10 +196,8 @@ while True:
 		# elif 
 
 		elif jebret.checkdir(commands[2]):
-			print "masuk elif"
 			jebret.copy(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
 		else:
-			print "masuk else asdsads"
 			jebret.copy(currdir+commands[1], currdir+commands[2])
 
 	elif commands[0] == 'mv':
@@ -223,8 +217,6 @@ while True:
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
-
-				print "kontol terbang"
 				satu = currdir+'/'+commands[1]
 				print "file asal->",satu
 				dua = newdir+'/'+newName
@@ -254,13 +246,9 @@ while True:
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
-
-				print "kontol terbang"
 				satu = currdir+'/'+commands[1]
 				print "file asal->",satu
-				dua = newdir+'/'+newName
-
-		
+				dua = newdir+'/'+newName	
 				print "folder tujuan->",dua
 				jebret.move(satu, currdir+'/'+commands[2])
 
@@ -282,10 +270,8 @@ while True:
 		# elif 
 
 		elif jebret.checkdir(commands[2]):
-			print "masuk elif"
 			jebret.move(currdir+'/'+commands[1], currdir+'/'+commands[2]+'/'+commands[1])
 		else:
-			print "masuk else asdsads"
 			jebret.move(currdir+commands[1], currdir+commands[2])
 
 
