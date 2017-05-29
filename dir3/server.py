@@ -16,7 +16,6 @@ class Jebret(object):
 
 	def __init__(self):
 		self.daemon = None
-		print("kontol")
 
 	def listdir(self, currdir):
 		a=[]
@@ -116,8 +115,6 @@ class Jebret(object):
 		return os.path.isfile(dir)
 
 	def checkdir(self, dir):
-		print "masuk checkdir di server"
-		# print os.path.isdir(dir)
 		return os.path.isdir(dir)
 
 
