@@ -4,7 +4,7 @@ import os
 
 
 # uri = input("Enter the uri of the jebret: ").strip()
-uri ="PYRONAME:filesystem.middleware"
+uri ="PYRONAME:filesystem.middleware@10.151.36.25:9090"
 jebret = Pyro4.Proxy(uri)
 # input=raw_input()
 currdir="./"
@@ -70,6 +70,8 @@ while True:
 		
 		
 	elif commands[0] == 'touch':
+		print currdir
+		print commands[1]
 		jebret.makefile(currdir+'/'+commands[1])
 		
 	elif commands[0] == 'rm':

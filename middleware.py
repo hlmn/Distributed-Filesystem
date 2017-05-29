@@ -326,14 +326,34 @@ class DispatcherQueue(object):
     
 
     def makefile(self, currdir): 
-        serversize = {} 
-        for server in self.serverlist: 
-            with Pyro4.Proxy(server) as storage:
-                serversize[server] = storage.size() 
-        sorted_x = sorted(serversize.items(), key=operator.itemgetter(1)) 
-        # print (sorted_x[0][0]) 
-        with Pyro4.Proxy(sorted_x[0][0]) as storage: 
-            storage.makefile(currdir) 
+        serversize = {}
+        print ("curidr->", currdir)
+
+        cekcek = (currdir.split('/'))
+        cekcek.reverse()
+        print ("asdasd", cekcek)
+        anjing=False
+        ea = cekcek[len(cekcek)-2]
+        print(ea)
+
+        for ngentot in self.serverlist:
+            with Pyro4.Proxy(ngentot) as anjink:
+                if anjink.checkdir(ea):
+                    anjing=True
+                    serveranjing=ngentot
+
+        if anjing == False:
+            for server in self.serverlist: 
+                with Pyro4.Proxy(server) as storage:
+                    serversize[server] = storage.size() 
+            sorted_x = sorted(serversize.items(), key=operator.itemgetter(1)) 
+            # print (sorted_x[0][0]) 
+            with Pyro4.Proxy(sorted_x[0][0]) as storage: 
+                storage.makefile(currdir) 
+        else:
+            print(currdir)
+            with Pyro4.Proxy(serveranjing) as storage: 
+                storage.makefile(currdir) 
 
     def check(self, currdir, storage = None):
         return storage.check(currdir)
@@ -375,5 +395,5 @@ class DispatcherQueue(object):
 
 Pyro4.Daemon.serveSimple({
     DispatcherQueue: "filesystem.middleware"
-})
+},"10.151.36.25")
 

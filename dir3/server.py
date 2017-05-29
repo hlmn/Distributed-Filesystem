@@ -122,7 +122,7 @@ class Jebret(object):
 
 
 def main():
-	with Pyro4.Daemon(host="0.0.0.0") as daemon:
+	with Pyro4.Daemon(host="10.151.36.25") as daemon:
 	    worker_name = "Worker_%d@%s" % (os.getpid(), socket.gethostname())
 	    print("Starting up worker", worker_name)
 	    uri = daemon.register(Jebret)
