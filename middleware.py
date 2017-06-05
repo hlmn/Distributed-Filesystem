@@ -92,7 +92,7 @@ class DispatcherQueue(object):
                         anjing=True
                         serveranjing=ngentot
             
-            with Pyro4.Proxy(server) as storage
+            with Pyro4.Proxy(server) as storage:
                 kunam = False
                 if storage.checkdir(dst.split('/')[-1]) == False:
                     # if cekcek[len(cekcek)-2]:
@@ -375,5 +375,5 @@ class DispatcherQueue(object):
 
 Pyro4.Daemon.serveSimple({
     DispatcherQueue: "filesystem.middleware"
-},"10.151.36.25")
+},)
 

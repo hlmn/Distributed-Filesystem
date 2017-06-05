@@ -4,7 +4,7 @@ import os
 
 
 # uri = input("Enter the uri of the jebret: ").strip()
-uri ="PYRONAME:filesystem.middleware@10.151.36.25:9090"
+uri ="PYRONAME:filesystem.middleware@localhost"
 jebret = Pyro4.Proxy(uri)
 # input=raw_input()
 currdir="./"
