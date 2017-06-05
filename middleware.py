@@ -43,7 +43,7 @@ class DispatcherQueue(object):
                     if i == "server.py" or i == "list tidak ada":
                         continue
                     a.append(i)
-                    print(i)
+                    # print(i)
         return a
 
     def changedirectory(self, currdir, server = None):
@@ -56,52 +56,50 @@ class DispatcherQueue(object):
 
     def move(self, src, dst):
         isifile = ''
-        print ('src-->'+ src)
-        print ('dst-->'+ dst)
+        # print ('src-->'+ src)
+        # print ('dst-->'+ dst)
         serversize = {}
         for server in self.serverlist:
             with Pyro4.Proxy(server) as storage:                
                 if storage.checkfile(src) == True:
                     isifile = storage.sendfile(src)
-                    print ('masuk if di middleware')
+                    # print ('masuk if di middleware')
                     serversize[server] = storage.size()
                 else:
                     continue
         sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
                  
         for server in self.serverlist:
-            print (src)
-            print ("=================")
-            print (src.split('/').pop())
-            print ("=================")
-            print (dst.split('/')[-1])
-            print ("=================")
-            print (dst)
-            print (dst.split('/'))
+            # print (src)
+            # print ("=================")
+            # print (src.split('/').pop())
+            # print ("=================")
+            # print (dst.split('/')[-1])
+            # print ("=================")
+            # print (dst)
+            # print (dst.split('/'))
 
             cekcek = (dst.split('/'))
             cekcek.reverse()
 
-            anjing=False
+            variab1=False
             ea = cekcek[len(cekcek)-2]
             print(ea)
 
-            for ngentot in self.serverlist:
-                with Pyro4.Proxy(ngentot) as anjink:
-                    if anjink.checkdir(ea):
-                        anjing=True
-                        serveranjing=ngentot
+            for varbagus in self.serverlist:
+                with Pyro4.Proxy(varbagus) as variab2:
+                    if variab2.checkdir(ea):
+                        variab1=True
+                        servervariab1=varbagus
             
             with Pyro4.Proxy(server) as storage:
-                kunam = False
+                variab = False
                 if storage.checkdir(dst.split('/')[-1]) == False:
-                    # if cekcek[len(cekcek)-2]:
-                    #     anjing=True
-                    kunam = False
+                    variab = False
                 elif storage.checkdir(dst.split('/')[-1]) == True:
-                    kunam = True
+                    variab = True
                 
-                if kunam == False and dst.split('/')[-1] != src.split('/').pop(): #kalo ganti nama
+                if variab == False and dst.split('/')[-1] != src.split('/').pop(): #kalo ganti nama
                     if dst.split('/')[-1] == ".":
                         filename = src.split('/').pop()
                         if dst[len(dst)-1] != '/': #misal dst nya ga ada slash
@@ -129,10 +127,8 @@ class DispatcherQueue(object):
                     print (dst)
                     print('check '+kirim+'\n isifile: '+isifile)
 
-                if anjing is True:
-                    
-                    print(serveranjing)
-                    with Pyro4.Proxy(serveranjing) as storage:
+                if variab1 is True:
+                    with Pyro4.Proxy(servervariab1) as storage:
                     # serversize[server] = storage.size() 
                     # sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
 
@@ -190,14 +186,14 @@ class DispatcherQueue(object):
         sorted_x = sorted(serversize.items(), key=operator.itemgetter(1))
                  
         for server in self.serverlist:
-            print (src)
-            print ("=================")
-            print (src.split('/').pop())
-            print ("=================")
-            print (dst.split('/')[-1])
-            print ("=================")
-            print (dst)
-            print (dst.split('/'))
+            # print (src)
+            # print ("=================")
+            # print (src.split('/').pop())
+            # print ("=================")
+            # print (dst.split('/')[-1])
+            # print ("=================")
+            # print (dst)
+            # print (dst.split('/'))
 
             cekcek = (dst.split('/'))
             cekcek.reverse()
@@ -217,7 +213,7 @@ class DispatcherQueue(object):
 
             with Pyro4.Proxy(server) as storage:
                 folderFlag2 = False
-                kunam = False
+                variab = False
                 if storage.checkdir(dst.split('/')[-1]) == False:
                     folderFlag2 = False
                 elif storage.checkdir(dst.split('/')[-1]) == True:
@@ -293,12 +289,12 @@ class DispatcherQueue(object):
     def makefile(self, currdir, dst): 
         serversize = {}
         dira = list(dst)
-        print (dira)
+        # print (dira)
         if dira[0] == '/':
-            print(dira)
+            # print(dira)
             dira.reverse()
-            print("======")
-            print(dira.pop())
+            # print("======")
+            # print(dira.pop())
             dira.reverse()
             oo = True
         else:
@@ -308,21 +304,14 @@ class DispatcherQueue(object):
         cekcek.reverse()
         print ("asdasd", cekcek)
         folderFlag = False
-        #anjing=False
         folderName = cekcek[len(cekcek)-2]
-        #ea = cekcek[len(cekcek)-2]
         print(ea)
         print(folderName)
         for server in self.serverlist:
-        #for ngentot in self.serverlist:
             with Pyro4.Proxy(server) as storage:
-            #with Pyro4.Proxy(ngentot) as anjink:
                 if storage.checkdir(folderName):
-                #if anjink.checkdir(ea):
                     folderFlag = True
-                    #anjing=True
                     serverDst = server
-                    #serveranjing=ngentot 
 
 
         if folderFlag==False or oo==True:   

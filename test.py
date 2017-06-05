@@ -70,8 +70,8 @@ while True:
 		
 		
 	elif commands[0] == 'touch':
-		print currdir
-		print commands[1]
+		# print currdir
+		# print commands[1]
 		jebret.makefile(currdir+'/'+commands[1])
 		
 	elif commands[0] == 'rm':
@@ -86,8 +86,8 @@ while True:
 			currdir="./"
 			currserver=""
 		else:
-			kontol=commands[1]
-			split = kontol.split()[0]
+			input=commands[1]
+			split = input.split()[0]
 			# print(split)
 			if commands[1] == "..":
 
@@ -123,68 +123,68 @@ while True:
 
 
 	elif commands[0] == 'cp':
-		print commands[2]
-		print commands[2][:1]
+		# print commands[2]
+		# print commands[2][:1]
 		#kalo di copy ke root
 		if commands[2][:1] == '/':
-			print "ini currdir :",currdir
+			# print "ini currdir :",currdir
 			xxx = currdir.split('/')			
-			print "ini xxx->",xxx
+			# print "ini xxx->",xxx
 			# print "xxx asli->",xxx
 			newdir = xxx[0]
 			pindahNama = commands[2].split('/')
 			newName = pindahNama.pop()
 
-			print "ini newName->",newName
+			# print "ini newName->",newName
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
 
 				satu = currdir+'/'+commands[1]
-				print "file asal->",satu
+				# print "file asal->",satu
 				dua = newdir+'/'+newName
 
 		
-				print "folder tujuan->",dua
+				# print "folder tujuan->",dua
 				jebret.copy(satu, commands[2])
 
 			#kalo nggak nerubah nama
 			else:
-				print "newdir->",newdir
+				# print "newdir->",newdir
 				satu = currdir+'/'+commands[1]
-				print "file asal : ",satu
+				# print "file asal : ",satu
 				dua = newdir
-				print "folder tujuan : ",dua
+				# print "folder tujuan : ",dua
 				jebret.copy(satu, dua)
 		elif commands[2][:1] != '/':
-			print "ini currdir :",currdir
+			# print "ini currdir :",currdir
 			xxx = currdir.split('/')			
-			print "ini xxx->",xxx
+			# print "ini xxx->",xxx
 			# print "xxx asli->",xxx
 			newdir = xxx[0]
 			pindahNama = commands[2].split('/')
 			newName = pindahNama.pop()
 
-			print "ini newName->",newName
+			# print "ini newName->",newName
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
 
 				satu = currdir+'/'+commands[1]
-				print "file asal->",satu
+				# print "file asal->",satu
 				dua = newdir+'/'+newName
 
 		
-				print "folder tujuan->",dua
+				# print "folder tujuan->",dua
 				jebret.copy(satu, currdir+'/'+commands[2])
 
 			#kalo nggak nerubah nama
 			else:
-				print "newdir->",newdir
+				# print "newdir->",newdir
 				satu = currdir+'/'+commands[1]
-				print "file asal : ",satu
+				# print "file asal : ",satu
 				dua = newdir
-				print "folder tujuan : ",dua
+				# print "folder tujuan : ",dua
 				jebret.copy(satu, dua)
 
 		#kalo di copy ke .. (folder sebelumnya)
@@ -205,60 +205,60 @@ while True:
 		print commands[2][:1]
 		#kalo di copy ke root
 		if commands[2][:1] == '/':
-			print "ini currdir :",currdir
+			# print "ini currdir :",currdir
 			xxx = currdir.split('/')			
-			print "ini xxx->",xxx
+			# print "ini xxx->",xxx
 			# print "xxx asli->",xxx
 			newdir = xxx[0]
 			pindahNama = commands[2].split('/')
 			newName = pindahNama.pop()
 
-			print "ini newName->",newName
+			# print "ini newName->",newName
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
 				satu = currdir+'/'+commands[1]
-				print "file asal->",satu
+				# print "file asal->",satu
 				dua = newdir+'/'+newName
 
 		
-				print "folder tujuan->",dua
+				# print "folder tujuan->",dua
 				jebret.move(satu, commands[2])
 
 			#kalo nggak nerubah nama
 			else:
-				print "newdir->",newdir
+				# print "newdir->",newdir
 				satu = currdir+'/'+commands[1]
-				print "file asal : ",satu
+				# print "file asal : ",satu
 				dua = newdir
-				print "folder tujuan : ",dua
+				# print "folder tujuan : ",dua
 				jebret.move(satu, dua)
 		elif commands[2][:1] != '/':
-			print "ini currdir :",currdir
+			# print "ini currdir :",currdir
 			xxx = currdir.split('/')			
-			print "ini xxx->",xxx
+			# print "ini xxx->",xxx
 			# print "xxx asli->",xxx
 			newdir = xxx[0]
 			pindahNama = commands[2].split('/')
 			newName = pindahNama.pop()
 
-			print "ini newName->",newName
+			# print "ini newName->",newName
 
 			#kalo mau ngerubah nama [BELUM BISA]
 			if newName is not '':
 				satu = currdir+'/'+commands[1]
-				print "file asal->",satu
+				# print "file asal->",satu
 				dua = newdir+'/'+newName	
-				print "folder tujuan->",dua
+				# print "folder tujuan->",dua
 				jebret.move(satu, currdir+'/'+commands[2])
 
 			#kalo nggak nerubah nama
 			else:
-				print "newdir->",newdir
+				# print "newdir->",newdir
 				satu = currdir+'/'+commands[1]
-				print "file asal : ",satu
+				# print "file asal : ",satu
 				dua = newdir
-				print "folder tujuan : ",dua
+				# print "folder tujuan : ",dua
 				jebret.move(satu, dua)
 
 		#kalo di copy ke .. (folder sebelumnya)
