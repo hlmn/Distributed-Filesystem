@@ -10,9 +10,9 @@ Pembagian Tugas:
 7. Leastsize algorithm : Muhammad Hilman
 
 Anggota Kelompok:
-5114100069 - Muhammad Hilman
-5114100085 - Aviananda Dwirahma J
-5114100110 - Rafiar Rahmansyah
-5114100115 - Fourir Akbar
-5114100171 - Glleen Allan M
-5114100173 - Afif Ridho Kamal P
+1. 5114100069 - Muhammad Hilman
+2. 5114100085 - Aviananda Dwirahma J
+3. 5114100110 - Rafiar Rahmansyah
+4. 5114100115 - Fourir Akbar
+5. 5114100171 - Glleen Allan M
+6. 5114100173 - Afif Ridho Kamal P
